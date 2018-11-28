@@ -22,6 +22,7 @@
 $popupWidth=420; #Width of the GUI popup.
 $popupScreenBorderDistance=20; 
 $ignoredProcesses=@("dllhost.exe","SearchProtocolHost.exe","SearchFilterHost.exe","taskhost.exe", "conhost.exe"); #these processes will never be suspended
+$microsoftSig="CN=Microsoft Corporation, OU=MOPR, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
 $new_process_check_interval = New-Object System.TimeSpan(0,0,0,0,750); #public TimeSpan (int days, int hours, int minutes, int seconds, int milliseconds);
 
 
@@ -295,6 +296,7 @@ do
 	$processName=[string]$e.Name;
 	Write-host "PID:`t`t" $e.ProcessId;
 	Write-host "Name:`t`t" $processName;
+	Write-host "Signature:`t`t" $(get-AuthenticodeSignature $processName ).SignerCertificate.Subject"
 	Write-host "PPID:`t`t" $e.ParentProcessID; 
 	
 	$parent_process=''; 
